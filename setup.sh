@@ -36,11 +36,8 @@ function configure_macos() {
 }
 
 if [[ "$1" == "--deploy-ci" ]]; then
-    # get SIP status
-    csrutil status
-    # get current nvram boot-args
-    nvram boot-args
-    # copy dotfiles
+    # Configure macOS settings
+    configure_macos
     echo "Deploying dotfiles..."
     mkdir -p ~/.config
     rsync -av --exclude='.git/' --exclude='setup.sh' ./ ~/.config/
