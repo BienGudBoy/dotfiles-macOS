@@ -11,6 +11,26 @@ function check_brew_install() {
     fi
 }
 
+function configure_macos() {
+    echo "Configuring macOS settings..."
+    defaults write NSGlobalDomain _HIHideMenuBar -bool true
+    defaults write com.apple.dock autohide -bool true
+    defaults write -g NSWindowShouldDragOnGesture -bool true
+    defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
+    defaults write com.apple.spaces "spans-displays" -bool true
+    defaults write com.apple.dock "mru-spaces" -bool false
+    defaults write com.apple.dock "show-recents" -bool true
+    defaults write com.apple.finder "CreateDesktop" -bool false
+    defaults write com.apple.dock "expose-group-apps" -bool false
+    defaults write NSGlobalDomain "AppleSpacesSwitchOnActivate" -bool true
+    defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+
+    killall SystemUIServer
+    killall Dock
+    sleep 2
+    echo "macOS settings configured."
+}
+
 if [[ "$1" == "--deploy-ci" ]]; then
     # get SIP status
     csrutil status
@@ -27,4 +47,8 @@ if [[ "$1" == "--deploy-ci" ]]; then
         exit 1
     fi
     echo "Dependencies installed successfully."
+fi
+
+if [[ "$1" == "--configure-macos" ]]; then
+    configure_macos
 fi
