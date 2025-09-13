@@ -19,9 +19,6 @@ jobs:
             chmod +x setup.sh
             ./setup.sh --configure-macos
         
-        - name: Wait for GUI applications to start
-          run: sleep 10
-        
         - name: Take desktop screenshot
           run: |
             screencapture -x ~/Desktop/dotfiles-setup-result.png
