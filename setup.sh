@@ -13,7 +13,7 @@ function check_brew_install() {
 
 function configure_macos() {
     echo "Configuring macOS settings..."
-    defaults write NSGlobalDomain _HIHideMenuBar -bool true
+    defaults write NSGlobalDomain _HIHideMenuBar -int 1
     defaults write com.apple.dock autohide -bool true
     defaults write -g NSWindowShouldDragOnGesture -bool true
     defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
