@@ -1,8 +1,9 @@
 name: Deploy dotfiles
 on:
     push:
-        branches:
-        - main
+        branches: 
+          - main
+          - screenshot
     workflow_dispatch:
 jobs:
     deploy:
