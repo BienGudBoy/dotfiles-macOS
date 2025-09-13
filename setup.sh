@@ -13,7 +13,6 @@ function check_brew_install() {
 
 function configure_macos() {
     echo "Configuring macOS settings..."
-    defaults write NSGlobalDomain _HIHideMenuBar -int 1
     defaults write com.apple.dock autohide -bool true
     defaults write -g NSWindowShouldDragOnGesture -bool true
     defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
@@ -24,9 +23,14 @@ function configure_macos() {
     defaults write com.apple.dock "expose-group-apps" -bool false
     defaults write NSGlobalDomain "AppleSpacesSwitchOnActivate" -bool true
     defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+    defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+    defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+    defaults write com.apple.dock wvous-br-corner -int 1
+    osascript -e 'tell application \"System Events\" to set autohide menu bar of dock preferences to true'
 
-    killall SystemUIServer
-    killall Dock
+    sudo killall Finder
+    sudo killall SystemUIServer
+    sudo killall Dock
     sleep 2
     echo "macOS settings configured."
 }
