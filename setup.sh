@@ -48,9 +48,10 @@ function initialize_sketchybar() {
 
     curl -L $ZIP_URL -o $ZIP_FILE && \
     unzip $ZIP_FILE -d $HOME/Downloads && \
-    cd $EXTRACT_DIR && \
-    pnpm install && \
-    pnpm run build:install && \
+    pushd $EXTRACT_DIR
+        pnpm install && \
+        pnpm run build:install && \
+    popd
     rm -rf $ZIP_FILE $EXTRACT_DIR
 
     # compile SBarLua
@@ -63,7 +64,7 @@ function initialize_sketchybar() {
 
     if ! pgrep -x "sketchybar" > /dev/null; then
         echo "Starting sketchybar..."
-        /opt/homebrew/bin/sketchybar &
+        brew services start sketchybar
         # first start will take a while to compile lua scripts
         sleep 30
         echo "sketchybar started."
