@@ -92,3 +92,7 @@ fi
 if [[ "$1" == "--configure-macos" ]]; then
     configure_macos
 fi
+
+if [[ "$1" == "--init-sketchybar" ]]; then
+    initialize_sketchybar
+fi
