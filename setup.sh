@@ -55,7 +55,7 @@ function initialize_sketchybar() {
 
     if ! pgrep -x "sketchybar" > /dev/null; then
         echo "Starting sketchybar..."
-        brew services start sketchybar
+        /opt/homebrew/bin/sketchybar &
         # first start will take a while to compile lua scripts
         sleep 30
         echo "sketchybar started."
