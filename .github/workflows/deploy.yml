@@ -1,8 +1,9 @@
 name: Deploy dotfiles
 on:
     push:
-        branches:
-        - main
+        branches: 
+          - main
+          - screenshot
     workflow_dispatch:
 jobs:
     deploy:
@@ -13,7 +14,22 @@ jobs:
           with:
             fetch-depth: 0
         
-        - name: CI setup run
+        - name: Run setup script with deploy CI flag
           run: |
             chmod +x setup.sh
             ./setup.sh --deploy-ci
+        
+        - name: Wait for GUI applications to start
+          run: sleep 10
+        
+        - name: Take desktop screenshot
+          run: |
+            screencapture -x ~/Desktop/dotfiles-setup-result.png
+            ls -la ~/Desktop/dotfiles-setup-result.png
+        
+        - name: Upload screenshot as artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: dotfiles-screenshot
+            path: ~/Desktop/dotfiles-setup-result.png
+            retention-days: 30
