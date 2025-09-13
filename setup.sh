@@ -19,7 +19,7 @@ if [[ "$1" == "--deploy-ci" ]]; then
     # copy dotfiles
     echo "Deploying dotfiles..."
     mkdir -p ~/.config
-    rsync -av --exclude='.git/' --exclude='setup.sh' --exclude='Brewfile' ./ ~/.config/
+    rsync -av --exclude='.git/' --exclude='setup.sh' ./ ~/.config/
     check_brew_install
     echo "Installing dependencies from Brewfile..."
     if ! brew bundle --file="$HOME/.config/Brewfile"; then
