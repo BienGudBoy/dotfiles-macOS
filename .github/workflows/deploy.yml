@@ -3,7 +3,6 @@ on:
     push:
         branches: 
           - main
-          - screenshot
     workflow_dispatch:
 jobs:
     deploy:
@@ -18,9 +17,6 @@ jobs:
           run: |
             chmod +x setup.sh
             ./setup.sh --deploy-ci
-        
-        - name: Wait for GUI applications to start
-          run: sleep 10
         
         - name: Take desktop screenshot
           run: |

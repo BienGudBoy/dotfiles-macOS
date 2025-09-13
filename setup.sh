@@ -11,12 +11,33 @@ function check_brew_install() {
     fi
 }
 
+function configure_macos() {
+    echo "Configuring macOS settings..."
+    defaults write com.apple.dock autohide -bool true
+    defaults write -g NSWindowShouldDragOnGesture -bool true
+    defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
+    defaults write com.apple.spaces "spans-displays" -bool true
+    defaults write com.apple.dock "mru-spaces" -bool false
+    defaults write com.apple.dock "show-recents" -bool true
+    defaults write com.apple.finder "CreateDesktop" -bool false
+    defaults write com.apple.dock "expose-group-apps" -bool false
+    defaults write NSGlobalDomain "AppleSpacesSwitchOnActivate" -bool true
+    defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+    defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+    defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+    defaults write com.apple.dock wvous-br-corner -int 1
+    osascript -e 'tell application "System Events" to tell dock preferences to set autohide menu bar to true'
+
+    sudo killall Finder
+    sudo killall SystemUIServer
+    sudo killall Dock
+    sleep 2
+    echo "macOS settings configured."
+}
+
 if [[ "$1" == "--deploy-ci" ]]; then
-    # get SIP status
-    csrutil status
-    # get current nvram boot-args
-    nvram boot-args
-    # copy dotfiles
+    # Configure macOS settings
+    configure_macos
     echo "Deploying dotfiles..."
     mkdir -p ~/.config
     rsync -av --exclude='.git/' --exclude='setup.sh' ./ ~/.config/
@@ -27,4 +48,8 @@ if [[ "$1" == "--deploy-ci" ]]; then
         exit 1
     fi
     echo "Dependencies installed successfully."
+fi
+
+if [[ "$1" == "--configure-macos" ]]; then
+    configure_macos
 fi
