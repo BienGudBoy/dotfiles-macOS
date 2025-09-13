@@ -66,7 +66,7 @@ function initialize_sketchybar() {
         echo "Starting sketchybar..."
         brew services start sketchybar
         # first start will take a while to compile lua scripts
-        sleep 30
+        sleep 10
         echo "sketchybar started."
     else
         echo "sketchybar is already running."
