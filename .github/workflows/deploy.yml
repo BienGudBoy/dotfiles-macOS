@@ -16,7 +16,7 @@ jobs:
         - name: Run setup script with deploy CI flag
           run: |
             chmod +x setup.sh
-            ./setup.sh --configure-macos
+            ./setup.sh --deploy-ci
         
         - name: Take desktop screenshot
           run: |
