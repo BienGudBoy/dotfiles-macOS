@@ -78,7 +78,7 @@ function setup_wallpaper() {
     WALLPAPER_DIR="$HOME/Pictures"
     mkdir -p "$WALLPAPER_DIR"
     curl -L https://github.com/BienGudBoy/dotfiles-wallpapers/releases/download/release/What_Gave_Me_Courage_T-UPSCALED.png -o "$WALLPAPER_DIR/wallpaper.png"
-    m wallpaper --set "$WALLPAPER_DIR/wallpaper.png"
+    osascript -e "tell application \"System Events\" to tell every desktop to set picture to \"$WALLPAPER_DIR/wallpaper.png\" as POSIX file"
 }
 
 if [[ "$1" == "--deploy-ci" ]]; then
