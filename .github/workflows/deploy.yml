@@ -14,6 +14,11 @@ jobs:
           with:
             fetch-depth: 0
         
+        - name: Set display resolution
+          run: |
+            "/Library/Application Support/VMware Tools/vmware-resolutionSet" 2560 1600
+            sleep 2
+        
         - name: Run setup script with deploy CI flag
           run: |
             chmod +x setup.sh
