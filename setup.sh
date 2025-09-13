@@ -26,7 +26,7 @@ function configure_macos() {
     defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
     defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
     defaults write com.apple.dock wvous-br-corner -int 1
-    osascript -e 'tell application \"System Events\" to set autohide menu bar of dock preferences to true'
+    osascript -e 'tell application "System Events" to tell dock preferences to set autohide menu bar to true'
 
     sudo killall Finder
     sudo killall SystemUIServer
