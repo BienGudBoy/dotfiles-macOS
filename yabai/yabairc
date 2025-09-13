@@ -1,0 +1,57 @@
+#!/usr/bin/env sh
+
+APPRULE_FILE="~/.config/yabai/yabairc-apprules"
+
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+#
+
+# global settings
+yabai -m config                                 \
+    external_bar                 off:40:0       \
+    menubar_opacity              1.0            \
+    mouse_follows_focus          off            \
+    focus_follows_mouse          off            \
+    display_arrangement_order    default        \
+    window_origin_display        default        \
+    window_placement             second_child   \
+    window_insertion_point       focused        \
+    window_zoom_persist          on             \
+    window_shadow                off            \
+    window_animation_duration    0.0            \
+    window_animation_easing      ease_out_circ  \
+    window_opacity_duration      0.0            \
+    active_window_opacity        1.0            \
+    normal_window_opacity        0.90           \
+    window_opacity               off            \
+    insert_feedback_color        0xffd75f5f     \
+    split_ratio                  0.50           \
+    split_type                   auto           \
+    auto_balance                 off            \
+    top_padding                  51             \
+    bottom_padding               11             \
+    left_padding                 11             \
+    right_padding                11             \
+    window_gap                   11             \
+    layout                       bsp            \
+    mouse_modifier               fn             \
+    mouse_action1                move           \
+    mouse_action2                resize         \
+    mouse_drop_action            swap
+
+# Turn off tiling by default for all apps
+yabai -m rule --add app=".*" manage=off
+
+# separate app rules for privacy
+if [ -f ~/.config/yabai/yabairc-apprules ]; then
+    echo "Loading app rules..."
+    source ${APPRULE_FILE}
+else
+    echo "No app rules found, creating empty file..."
+    echo '#!/usr/bin/env sh' > ${APPRULE_FILE}
+    echo '# Add your app rules here.' >> ${APPRULE_FILE}
+    echo >> ${APPRULE_FILE}
+    echo 'echo "App rules loaded."' >> ${APPRULE_FILE}
+fi
+
+echo "yabai configuration loaded.."
