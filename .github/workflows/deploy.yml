@@ -3,7 +3,7 @@ on:
     push:
         branches: 
           - main
-          - sketchybar-init
+          - wallpaper
     workflow_dispatch:
 jobs:
     deploy:
