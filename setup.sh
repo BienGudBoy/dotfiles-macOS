@@ -53,6 +53,14 @@ function initialize_sketchybar() {
     pnpm run build:install && \
     rm -rf $ZIP_FILE $EXTRACT_DIR
 
+    # compile SBarLua
+    echo "Compiling SbarLua..."
+    git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua
+    pushd /tmp/SbarLua
+    make install
+    popd
+    rm -rf /tmp/SbarLua
+
     if ! pgrep -x "sketchybar" > /dev/null; then
         echo "Starting sketchybar..."
         /opt/homebrew/bin/sketchybar &
