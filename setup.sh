@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 function check_brew_install() {
     if ! command -v brew &> /dev/null; then
@@ -35,6 +36,34 @@ function configure_macos() {
     echo "macOS settings configured."
 }
 
+function initialize_sketchybar() {
+    # Get font for sketchybar
+    echo "Installing sketchybar-app-font..."
+    curl -L https://github.com/kvndrsslr/sketchybar-app-font/releases/download/v2.0.32/sketchybar-app-font.ttf -o $HOME/Library/Fonts/sketchybar-app-font.ttf
+
+    echo "Installing sketchybar-app-font-bg..."
+    ZIP_URL="https://github.com/SoichiroYamane/sketchybar-app-font-bg/archive/refs/tags/v0.0.11.zip"
+    ZIP_FILE="$HOME/Downloads/sketchybar-app-font-bg.zip"
+    EXTRACT_DIR="$HOME/Downloads/sketchybar-app-font-bg-0.0.11"
+
+    curl -L $ZIP_URL -o $ZIP_FILE && \
+    unzip $ZIP_FILE -d $HOME/Downloads && \
+    cd $EXTRACT_DIR && \
+    pnpm install && \
+    pnpm run build:install && \
+    rm -rf $ZIP_FILE $EXTRACT_DIR
+
+    if ! pgrep -x "sketchybar" > /dev/null; then
+        echo "Starting sketchybar..."
+        brew services start sketchybar
+        # first start will take a while to compile lua scripts
+        sleep 30
+        echo "sketchybar started."
+    else
+        echo "sketchybar is already running."
+    fi
+}
+
 if [[ "$1" == "--deploy-ci" ]]; then
     # Configure macOS settings
     configure_macos
@@ -48,6 +77,7 @@ if [[ "$1" == "--deploy-ci" ]]; then
         exit 1
     fi
     echo "Dependencies installed successfully."
+    initialize_sketchybar
 fi
 
 if [[ "$1" == "--configure-macos" ]]; then
