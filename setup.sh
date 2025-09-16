@@ -73,6 +73,14 @@ function initialize_sketchybar() {
     fi
 }
 
+function setup_wallpaper() {
+    echo "Setting up wallpaper..."
+    WALLPAPER_DIR="$HOME/Pictures"
+    mkdir -p "$WALLPAPER_DIR"
+    curl -L https://github.com/BienGudBoy/dotfiles-wallpapers/releases/download/release/What_Gave_Me_Courage_T-UPSCALED.png -o "$WALLPAPER_DIR/wallpaper.png"
+    osascript -e "tell application \"System Events\" to tell every desktop to set picture to \"$WALLPAPER_DIR/wallpaper.png\" as POSIX file"
+}
+
 if [[ "$1" == "--deploy-ci" ]]; then
     # Configure macOS settings
     configure_macos
@@ -87,6 +95,7 @@ if [[ "$1" == "--deploy-ci" ]]; then
     fi
     echo "Dependencies installed successfully."
     initialize_sketchybar
+    setup_wallpaper
 fi
 
 if [[ "$1" == "--configure-macos" ]]; then
@@ -95,4 +104,8 @@ fi
 
 if [[ "$1" == "--init-sketchybar" ]]; then
     initialize_sketchybar
+fi
+
+if [[ "$1" == "--setup-wallpaper" ]]; then
+    setup_wallpaper
 fi
